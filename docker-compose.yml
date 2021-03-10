@@ -1,0 +1,23 @@
+version: '3.7'
+services:
+  orderapp:
+    container_name: orderapp
+    build: .
+    command: python /order_tracking/manage.py runserver 0.0.0.0:8000
+    volumes:
+      - .:/order_tracking
+    ports:
+      - 8000:8000
+    depends_on:
+      - pgdb
+    environment:
+      - "DJANGO_SECRET_KEY=sec)#m)p^sf1_@f(d8x3*)%7uhojqin=i4$$^qz6^fhh%c_gc$$w"
+      - "DJANGO_DEBUG=True"
+  pgdb:
+    image: postgres:11
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      - "POSTGRES_HOST_AUTH_METHOD=trust"
+volumes:
+  postgres_data:
